@@ -3,27 +3,28 @@
 <head>
 	<title>Unit Tests for jsPDF</title>
 
-	<!-- jQuery, see http://jquery.com/ -->
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<!-- QUnit unit testing framework - see https://qunitjs.com/ -->
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.js"></script>
 	<!-- curl.js dependency loader, see: https://github.com/cujojs/curl -->
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/curl/0.7.3/curl-kitchen-sink/curl.min.js"></script>
-	<!-- base64.js - backward compatibility for atob() -->
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js"></script>
 
 	<script type="text/javascript">
 		curl.config({
-			paths: {
-			},
-		    apiName: 'require'
+			apiName: 'require'
 		});
+
+		curl([
+			'js!//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js',   // jQuery, see http://jquery.com/
+			'js!//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.js',    // QUnit unit testing framework - see https://qunitjs.com/
+			'link!//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.css', // CSS for QUnit
+			'js!//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js'    // base64.js - backward compatibility for atob()
+		]).then(
+			function () {
+				curl(['js!pdf_generate_tests.js']);
+			},
+			function (err) {  }
+		);
 
 	</script>
 
-
-
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.css" media="screen" />
 </head>
 <body>
 	<div id="qunit">
@@ -37,6 +38,6 @@
 	<script src="../jspdf.plugin.split_text_to_size.js"></script>
 
 	<!-- DID YOU LOSE US? The TESTS ARE HERE -->
-	<script src="pdf_generate_tests.js"></script>
+	<!--script src="pdf_generate_tests.js"></script-->
 </body>
 </html>
