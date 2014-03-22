@@ -3,41 +3,64 @@
 <head>
 	<title>Unit Tests for jsPDF</title>
 
-	<!-- curl.js dependency loader, see: https://github.com/cujojs/curl -->
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/curl/0.7.3/curl-kitchen-sink/curl.min.js"></script>
+	<!--
+		jQuery - http://jquery.com/
+		QUnit unit testing framework - https://qunitjs.com/
+		curl.js dependency loader - https://github.com/cujojs/curl
+		filesaver.js - http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js
+	-->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/g/jquery,qunit,filesaver.js,curl.js(sink/curl.js)"></script>
 
 	<script type="text/javascript">
 		curl.config({
+			baseUrl: '..',
 			apiName: 'require'
 		});
 
 		curl([
-			'js!//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js',   // jQuery, see http://jquery.com/
-			'js!//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.js',    // QUnit unit testing framework - see https://qunitjs.com/
-			'link!//cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.css', // CSS for QUnit
-			'js!//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js'    // base64.js - backward compatibility for atob()
+			'js!//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js',    // base64.js - backward compatibility for atob()
+			'jspdf.js',
+			'js!jspdf.plugin.sillysvgrenderer.js!order',
+			'js!jspdf.plugin.addimage.js!order',
+			'js!jspdf.plugin.standard_fonts_metrics.js!order',
+			'js!jspdf.plugin.split_text_to_size.js!order',
+			'domReady!'
 		]).then(
 			function () {
-				curl(['js!pdf_generate_tests.js']);
+				curl.config({baseUrl: '.'});
+				curl(['doc_generators.js?x=1','js!pdf_generate_tests.js']).then(function () {
+					// [
+					// "empty",
+					// "twopagedoc",
+					// "twopagedoc_oldapi",
+					// "demolandscape",
+					// "fontsizes",
+					// "fonttypes",
+					// "textcolors",
+					// "metadata",
+					// "demorectangles",
+					// "demoliness",
+					// "democircles",
+					// "multilinetext",
+					// "multiplelines"
+					// ].forEach(function (name) {
+					// 	var doc = new jsPDFDoc(name);
+					// 	curl(doc.getRequirements()).then(function () {
+					// 		doc.save();
+					// 	});
+					// });
+				});
 			},
 			function (err) {  }
 		);
 
 	</script>
 
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/qunit/latest/qunit.css" />
 </head>
 <body>
 	<div id="qunit">
 		<div id="qunit-testrunner-toolbar"></div>
 	</div>
-
-	<script src="../jspdf.js"></script>
-	<script src="../jspdf.plugin.sillysvgrenderer.js"></script>
-	<script src="../jspdf.plugin.addimage.js"></script>
-	<script src="../jspdf.plugin.standard_fonts_metrics.js"></script>
-	<script src="../jspdf.plugin.split_text_to_size.js"></script>
-
-	<!-- DID YOU LOSE US? The TESTS ARE HERE -->
-	<!--script src="pdf_generate_tests.js"></script-->
 </body>
 </html>
